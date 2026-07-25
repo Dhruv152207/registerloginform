@@ -61,12 +61,13 @@ if (logForm) {
     logForm.addEventListener('submit', (e) => {
         e.preventDefault();
 
-        const username = document.getElementById('lUsername').value.trim();
-        const email = document.getElementById('lEmail').value.trim();
+        const identifier = document.getElementById('lIdentifier').value.trim();
         const password = document.getElementById('lPass').value;
 
         const users = getUsers();
-        const validUser = users.find(u => u.username === username && u.email === email && u.password === password);
+        const validUser = users.find(u =>
+            (u.username === identifier || u.email === identifier) && u.password === password
+        );
 
         if (validUser) {
             showSuccess(validUser);

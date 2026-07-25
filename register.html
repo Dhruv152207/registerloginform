@@ -1,0 +1,38 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Register</title>
+    <link rel="stylesheet" href="CSS/style.css" />
+  </head>
+  <body>
+    <div class="auth-container">
+      <div class="form-box register">
+        <form id="regForm">
+          <h2>Create Account</h2>
+          <div class="input-field">
+            <input type="text" id="rName" required placeholder="Full Name" />
+          </div>
+          <div class="input-field">
+            <input
+              type="email"
+              id="rEmail"
+              required
+              placeholder="Email Address"
+            />
+          </div>
+          <div class="input-field">
+            <input type="password" id="rPass" required placeholder="Password" />
+          </div>
+          <button type="submit" class="btn">Register</button>
+          <p>
+            Already have an account?
+            <a href="login.html">Login</a>
+          </p>
+        </form>
+      </div>
+    </div>
+    <script src="JS/registerlogin.js"></script>
+  </body>
+</html>

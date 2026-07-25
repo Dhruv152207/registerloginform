@@ -3,39 +3,77 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Register</title>
+    <title>Create Account</title>
     <link rel="stylesheet" href="CSS/style.css" />
   </head>
   <body>
     <div class="auth-container">
-      <div class="form-box register">
-        <form id="regForm">
+      <div class="form-box register-card">
+        <div class="form-header">
           <h2>Create Account</h2>
+        </div>
+
+        <form id="regForm" class="auth-form">
           <div class="input-field">
-            <input type="text" id="rName" required placeholder="Full Name" />
+            <label for="rUsername">Username</label>
+            <input
+              type="text"
+              id="rUsername"
+              required
+              placeholder="Choose a username"
+            />
           </div>
+
           <div class="input-field">
+            <label for="rFullName">Full Name</label>
+            <input
+              type="text"
+              id="rFullName"
+              required
+              placeholder="Enter your full name"
+            />
+          </div>
+
+          <div class="input-field">
+            <label for="rEmail">Email Address</label>
             <input
               type="email"
               id="rEmail"
               required
-              placeholder="Email Address"
+              placeholder="Enter your email"
             />
           </div>
+
           <div class="input-field">
-            <input type="password" id="rPass" required placeholder="Password" />
+            <label for="rPass">Password</label>
+            <input
+              type="password"
+              id="rPass"
+              required
+              placeholder="Create a password"
+            />
           </div>
+
+          <div class="input-field">
+            <label for="rConfirmPass">Confirm Password</label>
+            <input
+              type="password"
+              id="rConfirmPass"
+              required
+              placeholder="Confirm your password"
+            />
+          </div>
+
           <button type="submit" class="btn">Register</button>
-          <p>
-            Already have an account?
-            <a href="login.html">Login</a>
-          </p>
-          <p>
-            <a href="index.html">Back</a>
-          </p>
+
+          <div class="form-links">
+            <p>Already have an account? <a href="login.html">Login</a></p>
+            <p><a href="index.html">Back</a></p>
+          </div>
         </form>
       </div>
     </div>
+
     <script src="JS/registerlogin.js"></script>
   </body>
 </html>

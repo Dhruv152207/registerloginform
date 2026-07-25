@@ -1,6 +1,5 @@
 const regForm = document.getElementById('regForm');
 const logForm = document.getElementById('logForm');
-const authContainer = document.querySelector('.auth-container');
 
 function getUsers() {
     return JSON.parse(localStorage.getItem('users') || '[]');
@@ -10,34 +9,10 @@ function saveUsers(users) {
     localStorage.setItem('users', JSON.stringify(users));
 }
 
-function showLoggedInState(user) {
-    if (!authContainer) return;
-
-    authContainer.innerHTML = `
-        <div class="form-box">
-            <h2>Login Successful</h2>
-            <p>Welcome, ${user.name}!</p>
-            <p>You are now logged in.</p>
-            <button class="btn" id="logoutBtn">Logout</button>
-        </div>
-    `;
-
-    const logoutBtn = document.getElementById('logoutBtn');
-    if (logoutBtn) {
-        logoutBtn.addEventListener('click', logoutUser);
-    }
-}
-
-function logoutUser() {
-    localStorage.removeItem('loggedInUser');
-    window.location.href = 'index.html';
-}
-
-function restoreSession() {
-    const loggedInUser = JSON.parse(localStorage.getItem('loggedInUser') || 'null');
-    if (loggedInUser) {
-        showLoggedInState(loggedInUser);
-    }
+function showSuccess(user) {
+    localStorage.setItem('loggedInUser', JSON.stringify(user));
+    sessionStorage.setItem('welcomeName', user.fullName || user.username);
+    window.location.href = 'success.html';
 }
 
 if (regForm) {
@@ -45,27 +20,40 @@ if (regForm) {
         e.preventDefault();
 
         const user = {
-            name: document.getElementById('rName').value.trim(),
+            username: document.getElementById('rUsername').value.trim(),
+            fullName: document.getElementById('rFullName').value.trim(),
             email: document.getElementById('rEmail').value.trim(),
-            pass: document.getElementById('rPass').value
+            password: document.getElementById('rPass').value,
+            confirmPassword: document.getElementById('rConfirmPass').value
         };
 
         const users = getUsers();
 
-        if (!user.name || !user.email || !user.pass) {
+        if (!user.username || !user.fullName || !user.email || !user.password || !user.confirmPassword) {
             alert('Please fill in all fields.');
             return;
         }
 
-        if (users.some(u => u.email === user.email)) {
-            alert('This email is already registered!');
+        if (user.password !== user.confirmPassword) {
+            alert('Passwords do not match.');
             return;
         }
 
-        users.push(user);
+        if (users.some(u => u.username === user.username || u.email === user.email)) {
+            alert('Username or email already exists.');
+            return;
+        }
+
+        const savedUser = {
+            username: user.username,
+            fullName: user.fullName,
+            email: user.email,
+            password: user.password
+        };
+
+        users.push(savedUser);
         saveUsers(users);
-        localStorage.setItem('loggedInUser', JSON.stringify(user));
-        showLoggedInState(user);
+        showSuccess(savedUser);
     });
 }
 
@@ -73,19 +61,18 @@ if (logForm) {
     logForm.addEventListener('submit', (e) => {
         e.preventDefault();
 
+        const username = document.getElementById('lUsername').value.trim();
         const email = document.getElementById('lEmail').value.trim();
-        const pass = document.getElementById('lPass').value;
+        const password = document.getElementById('lPass').value;
 
         const users = getUsers();
-        const validUser = users.find(u => u.email === email && u.pass === pass);
+        const validUser = users.find(u => u.username === username && u.email === email && u.password === password);
 
         if (validUser) {
-            localStorage.setItem('loggedInUser', JSON.stringify(validUser));
-            showLoggedInState(validUser);
+            showSuccess(validUser);
         } else {
-            alert('Invalid Email or Password. Please try again.');
+            alert('Invalid username, email, or password.');
         }
     });
 }
-
-restoreSession();
+ 
